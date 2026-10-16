@@ -1,0 +1,344 @@
+/* ==========================================================================
+   Gymratstore - hoja de estilos propia (React)
+   Portada desde css/styles.css, con una diferencia clave pedida por el
+   equipo: el tema ya NO está fijo en oscuro. Las variables --gr-* ahora
+   tienen un valor para [data-bs-theme="dark"] (idéntico al original) y uno
+   nuevo para [data-bs-theme="light"], y <ThemeProvider> alterna ese atributo
+   en <html>. Los acentos de marca (rojo/lima) se mantienen en ambos modos
+   para seguir siendo reconociblemente "Gymratstore".
+   ========================================================================== */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+:root,
+[data-bs-theme="dark"] {
+  --gr-bg: #0c0d10;
+  --gr-surface: #17181c;
+  --gr-surface-alt: #1f2126;
+  --gr-border: #2a2c32;
+  --gr-text: #f4f4f5;
+  --gr-text-muted: #9a9ba3;
+  --gr-red: #e5342e;
+  --gr-red-dark: #b5231e;
+  --gr-lime: #b6ff3b;
+  --gr-lime-dark: #8fd41c;
+  --gr-radius: 0.75rem;
+  --gr-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+[data-bs-theme="light"] {
+  --gr-bg: #f5f6f8;
+  --gr-surface: #ffffff;
+  --gr-surface-alt: #eef0f3;
+  --gr-border: #dde1e6;
+  --gr-text: #16171a;
+  --gr-text-muted: #5b5d66;
+  --gr-red: #d32a24;
+  --gr-red-dark: #a81f1b;
+  --gr-lime: #5c9c12;
+  --gr-lime-dark: #477a0d;
+  --gr-radius: 0.75rem;
+  --gr-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Base --------------------------------------------------------------- */
+
+html,
+body {
+  background-color: var(--gr-bg);
+  color: var(--gr-text);
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  flex: 1 1 auto;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+h1, h2, h3, h4, .gr-display {
+  font-family: "Bebas Neue", "Inter", sans-serif;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+a { color: var(--gr-lime); }
+a:hover { color: var(--gr-lime-dark); }
+
+.text-muted-gr { color: var(--gr-text-muted) !important; }
+.text-accent-red { color: var(--gr-red) !important; }
+.text-accent-lime { color: var(--gr-lime) !important; }
+
+/* --- Botones de marca ----------------------------------------------------- */
+
+.btn-brand {
+  background-color: var(--gr-red);
+  border-color: var(--gr-red);
+  color: #fff;
+  font-weight: 600;
+}
+.btn-brand:hover, .btn-brand:focus {
+  background-color: var(--gr-red-dark);
+  border-color: var(--gr-red-dark);
+  color: #fff;
+}
+
+.btn-brand-outline {
+  background-color: transparent;
+  border: 1px solid var(--gr-red);
+  color: var(--gr-red);
+  font-weight: 600;
+}
+.btn-brand-outline:hover { background-color: var(--gr-red); color: #fff; }
+
+/* --- Navbar --------------------------------------------------------------- */
+
+.navbar-gr {
+  background-color: var(--gr-surface);
+  border-bottom: 1px solid var(--gr-border);
+}
+.navbar-gr .navbar-brand {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  color: var(--gr-text);
+}
+.navbar-gr .navbar-brand span { color: var(--gr-red); }
+.navbar-gr .nav-link { color: var(--gr-text-muted); font-weight: 500; }
+.navbar-gr .nav-link.active, .navbar-gr .nav-link:hover { color: var(--gr-text); }
+
+.gr-cart-icon { position: relative; font-size: 1.25rem; color: var(--gr-text); }
+.gr-carrito-badge {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.6rem;
+  background-color: var(--gr-red);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.3rem;
+}
+
+.gr-theme-toggle {
+  color: var(--gr-text-muted);
+  border: 1px solid var(--gr-border);
+  background: transparent;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.gr-theme-toggle:hover { color: var(--gr-lime); border-color: var(--gr-lime); }
+
+/* --- Superficies / tarjetas ------------------------------------------------ */
+
+.gr-card { background-color: var(--gr-surface); border: 1px solid var(--gr-border); border-radius: var(--gr-radius); }
+.gr-surface-alt { background-color: var(--gr-surface-alt); border-radius: var(--gr-radius); }
+
+/* --- Hero (home) ------------------------------------------------------------ */
+
+.gr-hero {
+  background: radial-gradient(circle at top right, rgba(229, 52, 46, 0.18), transparent 55%),
+    linear-gradient(180deg, var(--gr-surface) 0%, var(--gr-bg) 100%);
+  border-bottom: 1px solid var(--gr-border);
+  padding: 4rem 0;
+}
+.gr-hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+
+.gr-avatar-circle-lg {
+  width: 4rem; height: 4rem; border-radius: 50%;
+  background-color: var(--gr-surface-alt);
+  border: 2px solid var(--gr-lime);
+  color: var(--gr-lime);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Bebas Neue", sans-serif; font-size: 1.5rem;
+}
+
+.gr-stat-card {
+  background-color: var(--gr-surface);
+  border: 1px solid var(--gr-border);
+  border-left: 3px solid var(--gr-red);
+  border-radius: var(--gr-radius);
+  padding: 1rem 1.25rem;
+}
+.gr-stat-card .gr-stat-valor { font-family: "Bebas Neue", sans-serif; font-size: 2rem; line-height: 1; }
+
+/* --- Catálogo de productos -------------------------------------------------- */
+
+.gr-product-card {
+  background-color: var(--gr-surface);
+  border: 1px solid var(--gr-border);
+  border-radius: var(--gr-radius);
+  display: flex; flex-direction: column; height: 100%; overflow: hidden;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.gr-product-card:hover { border-color: var(--gr-lime); transform: translateY(-2px); }
+
+.gr-product-media {
+  aspect-ratio: 4 / 3;
+  background-color: var(--gr-surface-alt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; color: var(--gr-text-muted); overflow: hidden;
+}
+.gr-product-media img { width: 100%; height: 100%; object-fit: contain; padding: 0.6rem; box-sizing: border-box; }
+
+.gr-product-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1 1 auto; }
+.gr-product-body .gr-precio { font-family: "Bebas Neue", sans-serif; font-size: 1.4rem; color: var(--gr-lime); }
+.gr-product-footer { padding: 1rem; padding-top: 0; margin-top: auto; }
+
+.gr-badge-tipo {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  border: 1px solid var(--gr-border); color: var(--gr-text-muted); width: fit-content;
+}
+.gr-badge-tipo.gr-badge-plan { border-color: var(--gr-lime); color: var(--gr-lime); }
+.gr-badge-tipo.gr-badge-suplemento { border-color: var(--gr-red); color: var(--gr-red); }
+
+/* Oferta (vista /ofertas y badge en tarjeta/ficha de producto, Anexo 1 Evaluación 2) */
+.gr-precio-tachado { color: var(--gr-text-muted); text-decoration: line-through; font-size: 0.9rem; }
+.gr-badge-oferta {
+  display: inline-flex; align-items: center;
+  padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.03em;
+  background-color: var(--gr-red); color: #fff; width: fit-content;
+}
+
+/* Tarjetas de la vista /categorias */
+.gr-categoria-card {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  background-color: var(--gr-surface); border: 1px solid var(--gr-border); border-radius: var(--gr-radius);
+  padding: 1.5rem 1rem; height: 100%;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.gr-categoria-card:hover { border-color: var(--gr-lime); transform: translateY(-2px); }
+.gr-categoria-card i { font-size: 1.8rem; color: var(--gr-lime); }
+
+.gr-badge-membresia {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.25rem 0.65rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+  border: 1px solid var(--gr-border);
+}
+.gr-badge-membresia.is-activa { border-color: var(--gr-lime); color: var(--gr-lime); }
+.gr-badge-membresia.is-vencida { border-color: var(--gr-red); color: var(--gr-red); }
+.gr-badge-membresia.is-sin-plan { color: var(--gr-text-muted); }
+
+.gr-stock-critico { color: var(--gr-red); font-size: 0.8rem; }
+
+/* --- Carrito ---------------------------------------------------------------- */
+
+.gr-cart-item {
+  background-color: var(--gr-surface);
+  border: 1px solid var(--gr-border);
+  border-radius: var(--gr-radius);
+  padding: 0.9rem;
+  display: flex; gap: 1rem; align-items: center;
+}
+.gr-cart-item-icono {
+  width: 3rem; height: 3rem; flex: none; border-radius: 0.5rem;
+  background-color: var(--gr-surface-alt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; color: var(--gr-text-muted);
+}
+.gr-cart-summary { position: sticky; top: 1rem; }
+
+/* --- Formularios -------------------------------------------------------------- */
+
+.form-control, .form-select {
+  background-color: var(--gr-surface-alt);
+  border-color: var(--gr-border);
+  color: var(--gr-text);
+}
+.form-control:focus, .form-select:focus {
+  background-color: var(--gr-surface-alt);
+  color: var(--gr-text);
+  border-color: var(--gr-lime);
+  box-shadow: 0 0 0 0.2rem rgba(182, 255, 59, 0.15);
+}
+.form-control::placeholder { color: var(--gr-text-muted); }
+.form-label { font-weight: 500; color: var(--gr-text-muted); }
+.invalid-feedback { color: var(--gr-red); }
+
+/* --- Panel admin -------------------------------------------------------------- */
+
+.gr-admin-shell { display: flex; min-height: 100%; }
+.gr-admin-sidebar {
+  width: 240px; flex: none;
+  background-color: var(--gr-surface);
+  border-right: 1px solid var(--gr-border);
+  padding: 1.25rem 1rem;
+}
+.gr-admin-sidebar .navbar-brand { font-family: "Bebas Neue", sans-serif; font-size: 1.4rem; }
+.gr-admin-sidebar .nav-link {
+  color: var(--gr-text-muted); border-radius: 0.5rem; padding: 0.55rem 0.75rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.gr-admin-sidebar .nav-link.active { background-color: var(--gr-surface-alt); color: var(--gr-lime); font-weight: 600; }
+.gr-admin-sidebar .nav-link:hover { color: var(--gr-text); }
+.gr-admin-main { flex: 1 1 auto; padding: 1.75rem; }
+
+.table-gr {
+  --bs-table-bg: var(--gr-surface);
+  --bs-table-color: var(--gr-text);
+  --bs-table-border-color: var(--gr-border);
+}
+
+/* --- Blog ---------------------------------------------------------------------- */
+
+.gr-blog-card .gr-blog-media {
+  aspect-ratio: 16 / 9;
+  background-color: var(--gr-surface-alt);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; color: var(--gr-text-muted);
+  border-radius: var(--gr-radius) var(--gr-radius) 0 0;
+}
+
+/* --- Footer ---------------------------------------------------------------------- */
+
+.gr-footer {
+  background-color: var(--gr-surface);
+  border-top: 1px solid var(--gr-border);
+  color: var(--gr-text-muted);
+  padding: 2.5rem 0 1.5rem;
+  margin-top: 3rem;
+}
+.gr-footer a { color: var(--gr-text-muted); text-decoration: none; }
+.gr-footer a:hover { color: var(--gr-lime); }
+.gr-footer h6 { color: var(--gr-text); font-family: "Bebas Neue", sans-serif; letter-spacing: 0.04em; }
+
+/* --- Utilidades varias -------------------------------------------------------- */
+
+.gr-empty-state { text-align: center; padding: 3rem 1.5rem; color: var(--gr-text-muted); }
+.gr-empty-state i { font-size: 2.5rem; color: var(--gr-border); }
+
+.gr-section-titulo { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.25rem; }
+
+/* "Imprimir boleta en PDF" en CompraExitosa.jsx: al imprimir, solo se ve la
+   boleta (#boleta), sin navbar/footer/botones ni el fondo oscuro del tema. */
+@media print {
+  .navbar-gr, .gr-footer, .gr-no-print { display: none !important; }
+  body, .gr-card { background-color: #fff !important; color: #000 !important; }
+  #boleta { border: none !important; box-shadow: none !important; }
+}
+
+@media (max-width: 991.98px) {
+  .gr-admin-shell { flex-direction: column; }
+  .gr-admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--gr-border); }
+}
