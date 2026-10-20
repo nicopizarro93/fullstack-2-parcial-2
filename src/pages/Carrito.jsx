@@ -5,21 +5,25 @@
 // esta página solo mantiene la lista de ítems/cantidades y lleva a /checkout,
 // con la misma regla de siempre: un plan de gimnasio exige cuenta.
 import { Link, useNavigate } from "react-router-dom";
-import { getProductoPorCodigo, getIconoCategoria, formatoCLP } from "../data/mockData.js";
+import { getProductoPorCodigo, formatoCLP } from "../data/mockData.js";
+import { mediaProducto } from "../components/ProductoCard.jsx";
 import { useCarrito } from "../context/CarritoContext.jsx";
 import { useSesion } from "../context/SesionContext.jsx";
 
 function FilaCarrito({ item, onActualizarCantidad, onQuitar }) {
   const producto = getProductoPorCodigo(item.codigo);
   const esPlan = item.tipo === "Plan";
-  const icono = producto ? getIconoCategoria(producto.categoria) : "bi-box-seam";
   // Si el producto ya no existe en el catálogo (lo eliminó el admin mientras
   // estaba en el carrito de alguien), se usa un stock generoso por defecto.
   const stockDisponible = producto ? producto.stock : 99;
 
   return (
     <div className="gr-cart-item">
-      <div className="gr-cart-item-icono"><i className={`bi ${icono}`} /></div>
+      {/* Miniatura: la foto del producto (la misma de la tarjeta del catálogo),
+          o el ícono de su categoría si no tiene foto, como los planes. */}
+      <div className="gr-cart-item-icono">
+        {producto ? mediaProducto(producto) : <i className="bi bi-box-seam" />}
+      </div>
       <div className="flex-grow-1">
         <div className="d-flex justify-content-between">
           <h6 className="mb-1">{item.nombre}</h6>

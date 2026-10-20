@@ -252,11 +252,13 @@ a:hover { color: var(--gr-lime-dark); }
   display: flex; gap: 1rem; align-items: center;
 }
 .gr-cart-item-icono {
-  width: 3rem; height: 3rem; flex: none; border-radius: 0.5rem;
+  width: 4rem; height: 4rem; flex: none; border-radius: 0.5rem;
   background-color: var(--gr-surface-alt);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; color: var(--gr-text-muted);
+  font-size: 1.5rem; color: var(--gr-text-muted); overflow: hidden;
 }
+/* Miniatura de la foto del producto en el carrito (Carrito.jsx). */
+.gr-cart-item-icono img { width: 100%; height: 100%; object-fit: contain; padding: 0.25rem; box-sizing: border-box; }
 .gr-cart-summary { position: sticky; top: 1rem; }
 
 /* --- Formularios -------------------------------------------------------------- */
@@ -330,10 +332,53 @@ a:hover { color: var(--gr-lime-dark); }
 
 .gr-section-titulo { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.25rem; }
 
+/* --- Botón flotante del carrito (solo pantallas chicas) ------------------------
+   Bajo 992px la navbar se colapsa y el carrito queda dentro del menú
+   hamburguesa; este botón lo deja siempre a un toque (CarritoFlotante.jsx). */
+.gr-carrito-flotante {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  z-index: 1030;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: var(--gr-red);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: var(--gr-shadow);
+  text-decoration: none;
+}
+.gr-carrito-flotante:hover,
+.gr-carrito-flotante:focus-visible { background-color: var(--gr-red-dark); color: #fff; }
+.gr-carrito-flotante:focus-visible { outline: 3px solid var(--gr-lime); outline-offset: 3px; }
+.gr-carrito-flotante .gr-carrito-badge {
+  top: -0.2rem;
+  right: -0.2rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: var(--gr-surface);
+  color: var(--gr-text);
+  border: 2px solid var(--gr-red);
+}
+@keyframes gr-badge-pop {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gr-carrito-flotante .gr-carrito-badge { animation: gr-badge-pop 0.3s ease-out; }
+}
+
 /* "Imprimir boleta en PDF" en CompraExitosa.jsx: al imprimir, solo se ve la
    boleta (#boleta), sin navbar/footer/botones ni el fondo oscuro del tema. */
 @media print {
-  .navbar-gr, .gr-footer, .gr-no-print { display: none !important; }
+  .navbar-gr, .gr-footer, .gr-no-print, .gr-carrito-flotante { display: none !important; }
   body, .gr-card { background-color: #fff !important; color: #000 !important; }
   #boleta { border: none !important; box-shadow: none !important; }
 }
@@ -341,4 +386,8 @@ a:hover { color: var(--gr-lime-dark); }
 @media (max-width: 991.98px) {
   .gr-admin-shell { flex-direction: column; }
   .gr-admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--gr-border); }
+  /* Espacio para que el botón flotante del carrito no tape el final del footer. */
+  .gr-footer { padding-bottom: 6rem; }
+  /* Los avisos (toasts) salen por encima del botón flotante, no sobre él. */
+  .toast-container.bottom-0 { bottom: 4.5rem !important; }
 }

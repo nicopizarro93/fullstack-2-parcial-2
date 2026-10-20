@@ -36,7 +36,10 @@ export default function Login() {
 
     // Redirección post-login, en orden de prioridad: 1) ?volver=<url>,
     // 2) Administrador/Vendedor al panel admin, 3) Cliente al home.
-    const destino = params.get("volver");
+    // Solo se aceptan rutas internas ("/algo"): se descartan URLs externas y
+    // variantes como "//sitio.com" o "/\sitio.com" (evita open redirect).
+    const volver = params.get("volver");
+    const destino = volver && /^\/(?![\/\\])/.test(volver) ? volver : null;
     if (destino) navigate(destino);
     else if (usuario.tipoUsuario === "Administrador" || usuario.tipoUsuario === "Vendedor") navigate("/admin");
     else navigate("/");

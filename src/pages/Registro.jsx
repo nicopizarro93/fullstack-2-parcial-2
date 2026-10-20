@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import * as V from "../utils/validaciones.js";
-import { REGIONES, getComunas, existeCorreo, guardarUsuario } from "../data/mockData.js";
+import { REGIONES, getComunas, existeCorreo, getUsuarioPorRun, guardarUsuario } from "../data/mockData.js";
 import { useSesion } from "../context/SesionContext.jsx";
 
 const INICIAL = {
@@ -49,6 +49,12 @@ export default function Registro() {
     const nuevosErrores = Object.fromEntries(Object.entries(reglas).map(([k, r]) => [k, r.mensaje]));
     let valido = Object.values(reglas).every((r) => r.valido);
 
+    // No se puede repetir RUN entre cuentas: guardarUsuario reemplaza por RUN,
+    // así que sin este chequeo se sobrescribiría la cuenta existente.
+    if (valido && getUsuarioPorRun(valores.run.trim().toUpperCase())) {
+      nuevosErrores.run = "Ya existe una cuenta registrada con ese RUN.";
+      valido = false;
+    }
     // No se puede repetir correo entre cuentas.
     if (valido && existeCorreo(valores.correo.trim())) {
       nuevosErrores.correo = "Ya existe una cuenta registrada con ese correo.";

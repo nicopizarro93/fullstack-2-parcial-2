@@ -29,10 +29,11 @@ Lo que **no** se tocó a propósito (ya funcionaba y no estaba roto): el flujo d
 
 ```
 src/
+  assets/      css/index.css (estilos globales), img/productos/ (fotos de productos)
   data/        mockData.js (catálogo/usuarios/órdenes/carrito en localStorage), sesion.js (login/roles)
   utils/       validaciones.js (reglas del Anexo 1: RUN, correo, clave, tarjeta, etc.)
   context/     ThemeContext, ToastContext, SesionContext, CarritoContext
-  components/  NavBar, Footer, ProductoCard (+ test), ProtectedRoute, Layout, admin/AdminLayout
+  components/  NavBar, Footer, CarritoFlotante, ProductoCard (+ test), ProtectedRoute, Layout, admin/AdminLayout
   pages/       Home, Productos, Categorias, Ofertas, ProductoDetalle, Carrito, Checkout,
                CompraExitosa, CompraError, Login, Registro, Contacto, Nosotros,
                PoliticaPrivacidad, Blog, BlogDetalle, NotFound, admin/*

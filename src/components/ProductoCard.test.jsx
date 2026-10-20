@@ -42,7 +42,9 @@ describe("ProductoCard - renderizado y props", () => {
     const producto = getProductoPorCodigo("SUP-CREA01");
     renderCard(producto);
     expect(screen.getByText(producto.nombre)).toBeTruthy();
-    expect(screen.getByText(producto.categoria, { exact: false })).toBeTruthy();
+    // Coincidencia exacta: con exact:false "Creatina" también calzaba con el
+    // nombre "Creatina Monohidratada 300g" y getByText fallaba por duplicado.
+    expect(screen.getByText(producto.categoria)).toBeTruthy();
   });
 });
 

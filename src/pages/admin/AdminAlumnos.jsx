@@ -111,6 +111,13 @@ export default function AdminAlumnos() {
       valido = rClave.valido && valido;
     }
 
+    // Al crear, el RUN no puede existir ya (guardarUsuario reemplaza por RUN
+    // y sobrescribiría a ese usuario). Al editar el RUN está bloqueado.
+    if (valido && !runEnEdicion && getUsuarioPorRun(form.run.trim().toUpperCase())) {
+      nuevosErrores.run = "Ya existe un usuario con ese RUN.";
+      valido = false;
+    }
+
     const correo = form.correo.trim();
     if (valido && existeCorreo(correo, runEnEdicion)) {
       nuevosErrores.correo = "Ya existe un usuario con ese correo.";

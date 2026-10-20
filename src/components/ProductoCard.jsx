@@ -9,24 +9,34 @@ import { Link } from "react-router-dom";
 import { getIconoCategoria, formatoCLP, getPrecioEfectivo } from "../data/mockData.js";
 import { useCarrito } from "../context/CarritoContext.jsx";
 
-// Las imagenes viven en public/img/ (Vite las sirve desde la raiz del sitio,
-// "/img/..."), pero la semilla y el formulario de admin guardan la ruta sin
-// "/" inicial ("img/archivo.jpg"). Con ese string a secas, el navegador la
-// resuelve relativa a la URL ACTUAL en vez de a la raiz del sitio: en rutas
-// anidadas como la ficha de producto (/productos/:codigo) terminaba
-// buscando "/productos/img/archivo.jpg" (404) y la imagen no se veia.
-// Esto la normaliza a absoluta sin importar como se haya guardado.
+// Las fotos de productos viven en src/assets/img/productos/ (convención de
+// Vite: lo que usa el código va en src/assets, public/ queda para archivos con
+// URL fija como un favicon). Vite solo incluye en el build lo que el código
+// importa, así que import.meta.glob las importa todas de una vez y deja un
+// objeto { "../assets/img/productos/creatina.jpg": "<url final>", ... }.
+const IMAGENES = import.meta.glob(
+  ["../assets/img/productos/*.jpg", "../assets/img/productos/*.jpeg", "../assets/img/productos/*.png", "../assets/img/productos/*.webp"],
+  { eager: true, import: "default" }
+);
+
+// La semilla y el formulario de admin guardan la imagen como texto
+// ("img/creatina.jpg"). Se busca la foto por su nombre de archivo, así esos
+// datos siguen sirviendo sin cambios. Una URL completa (https://...) se usa
+// tal cual. Si no hay ninguna foto con ese nombre, devuelve null.
 function resolverImagen(ruta) {
-  if (!ruta) return ruta;
-  if (/^(https?:)?\/\//.test(ruta) || ruta.startsWith("/")) return ruta;
-  return "/" + ruta;
+  if (!ruta) return null;
+  if (/^(https?:)?\/\//.test(ruta)) return ruta;
+  const nombre = ruta.split("/").pop();
+  const encontrada = Object.entries(IMAGENES).find(([archivo]) => archivo.endsWith("/" + nombre));
+  return encontrada ? encontrada[1] : null;
 }
 
-// Foto real del producto si tiene una asignada, o el icono de su categoria
-// como respaldo (los planes de membresia no tienen foto).
+// Foto real del producto si tiene una y existe en la carpeta, o el icono de
+// su categoria como respaldo (los planes de membresia no tienen foto).
 export function mediaProducto(producto) {
-  if (producto.imagen) {
-    return <img src={resolverImagen(producto.imagen)} alt={producto.nombre} loading="lazy" />;
+  const src = resolverImagen(producto.imagen);
+  if (src) {
+    return <img src={src} alt={producto.nombre} loading="lazy" />;
   }
   return <i className={`bi ${getIconoCategoria(producto.categoria)}`} />;
 }
